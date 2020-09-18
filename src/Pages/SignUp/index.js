@@ -49,7 +49,7 @@ const  SignUp = () => {
         <Teste>
             <Header/>
             <Container>
-                <h2>Cadastre-se</h2>
+                <h2>Cadastratro de dados </h2>
                 <form onSubmit={handleSubmit(onSubmit)} noValidate >
                     <CollectionInput>    
                         <div>
@@ -189,7 +189,7 @@ const  SignUp = () => {
                         </div> 
                         </CollectionInput> 
                         
-                        <button type="submit">Login</button>                
+                        <button type="submit">Concluir</button>                
                     </form>
             </Container>
         </Teste>

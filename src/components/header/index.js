@@ -4,8 +4,12 @@ import {Component} from './styles';
 // import Container from '@material-ui/core/Container';
 
 
+import { useAuth } from '../../context/auth';
+
 
 const Header = () => {
+
+    const { user } = useAuth();
 
     return(
         <Component>         
@@ -17,6 +21,15 @@ const Header = () => {
                     <a href="/" > Contato </a>
                     <a href="/" > Login </a>
                     <a href="/" > Cadastro </a>
+                    {
+                        !!user && 
+                        <>
+                            <a href="/" > Login </a>
+                            <a href="/" > Login </a>
+                        </>
+                        
+                    }
+
                     
                 </nav>
             </header>

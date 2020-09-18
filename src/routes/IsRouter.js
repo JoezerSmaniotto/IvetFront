@@ -14,28 +14,27 @@ import { useAuth } from '../context/auth';
 
 const IsRouter = (
   {
-    isPrivate = false,
+    // isPrivate = false,
     component: Component,
     ...rest
   }
 )  => {
+
+
   const { user } = useAuth();
 
   return (
     <Route
       {...rest}
-      render={({ location }) => {
-        return isPrivate === !!user ? (
-          <Component />
-        ) : (
-          <Redirect
-            to={{
-              pathname: isPrivate ? '/' : '/dashboard',
-              state: { from: location },
-            }}
-          />
-        );
-      }}
+      render={ props  => 
+        !!user ? ( <Component {...props} />)
+        : ( <Redirect
+              to={{
+                pathname: '/signIn',
+                state: {from: props.location},
+              }}
+          />)
+      }
     />
   );
 };
