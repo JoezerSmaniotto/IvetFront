@@ -16,38 +16,40 @@ const  SignUp = () => {
     const [sbairro,setSbairro] = useState('');
     const [scidade,setScidade] = useState('');
     const [sUF,setSUF] = useState('');
-    const [erroCep,SetErroCep] = useState('');
+    const [erroCep,SetErroCep] = useState('Informe o cep');
 
     async function buscaCep (numberCep){
-        console.log(typeof(numberCep))
-        console.log(numberCep)
+        // console.log(typeof(numberCep))
+        // console.log(numberCep)
        
-    
-        try{
-             const returnCep = await cep(numberCep);
-    
-             const {state, city, street, neighborhood } = returnCep;
-               setSrua(street);
-               setSbairro(neighborhood);
-               setScidade(city);
-               setSUF(state) 
-             
-        }catch(err) {
-           
-            if(err.errors[1]?.message){
-                console.log(err.errors[1].message);
-                let menssage = err.errors[1].message;
+        if (numberCep !== '') {
+            try{
+                const returnCep = await cep(numberCep);
+        
+                const {state, city, street, neighborhood } = returnCep;
+                    setSrua(street);
+                    setSbairro(neighborhood);
+                    setScidade(city);
+                    setSUF(state) 
+                
+            }catch(err) {
+                
+                if(err.errors[1]?.message){
+                    console.log(err.errors[1].message);
+                    let menssage = err.errors[1].message;
 
-                SetErroCep(menssage)
-              
-            }else{
-                console.log(err.errors[0].message);
-                let menssage1 = err.errors[0].message;
+                    SetErroCep(menssage)
+                    
+                }else{
+                    console.log(err.errors[0].message);
+                    let menssage1 = err.errors[0].message;
 
-                SetErroCep(menssage1)
-              
+                    SetErroCep(menssage1)
+                    
+                }
             }
-        }
+        }   
+        
     
     
     }
