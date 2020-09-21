@@ -8,7 +8,7 @@ import { TextField } from '@material-ui/core';
 import  Header  from '../../components/header';
 import api from '../../services/api';
 import cep from 'cep-promise';
-
+import moment from 'moment';
 
     
 const  SignUp = () => {
@@ -17,15 +17,13 @@ const  SignUp = () => {
         name: yup.string().required('Nome obrigatório'),
         email: yup.string().required('E-mail obrigatório').email('Digite um e-mail válido'),
         password: yup.string().required('No minimo 6 caracteres').min(6,'A Senha deve ter no minimo 6 caracteres'),
-        // data: yup.date().min( new Date(1900,01,01), 'Informe Uma data Valida' ),
-        // data:yup.date().test('valida','Informe a data correta',(value)=>( console.log(value))),
-        birthDate: yup.string().required("Informe Uma data"),
-        // cep: yup.string().required(erroCep)  
-        // cep: yup.required.test('')
-        // cep: yup.string().required('Informe o CEP').min(8,'O cep tem que ter 8 digitos ').max(8,'O cep tem que ter 8 digitos '),
-        // cep: yup.string().test(),
-        //cep: yup.string().required('Informe o CEP').min(8,'O cep tem que ter 8 digitos ').max(8,'O cep tem que ter 8 digitos ').test('Cep não encontrado', function() {
+        birthDate: yup.string().required("Informe Uma data").test('validaData','Verifique a data', (value) => {
+            const dataAtual = moment().format('YYYY-MM-DD')
+            const data = moment(value).isBetween('1900-01-01',dataAtual)
+            return data;
             
+        }),
+        cep: yup.string().required('Informe o CEP').min(8,'O cep tem que ter 8 digitos ').max(8,'O cep tem que ter 8 digitos '),         
      
         street: yup.string().required('Informe o nome da Rua'),
         number: yup.string().required('Informe o numero da casa'),

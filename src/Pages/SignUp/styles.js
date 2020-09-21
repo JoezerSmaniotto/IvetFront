@@ -13,21 +13,23 @@ export const Form = styled.div`
 
     form{
       margin-top: 30px;
-      max-width: 600px;
-      background: green;
+      margin:0 10px;
+      max-width:1200px;
+      width:100%;
 
       div{
         display: flex;
         flex-direction: column;
+        margin:0 10px;
 
         label {
           line-height: 2;
           text-align: left;
           display: block;
-          margin-bottom: 13px;
-          margin-top: 20px;
+          /* margin-bottom: 13px; */
+          margin-top: 4px;
           color: black;
-          font-size: 14px;
+          font-size: 10px;
           font-weight: 200;
         }
 
@@ -42,6 +44,10 @@ export const Form = styled.div`
           margin-bottom: 10px;
           font-size: 14px;
           border-radius
+        }
+
+        p{
+
         }
       }
 
