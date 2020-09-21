@@ -1,103 +1,57 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-      display: flex;
-      flex-direction:column;
-      justify-content: center;
-      align-items: center;
-      height: auto;
-      
 
-      @media(min-width: 481px)
-      {
-        height:100%;
+export const Form = styled.div`
+    padding-top: 7vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    h2{
+      margin-top: 30px;
+    }
 
-      }
-    
-      h2{
-        color: black;
-        font-weight: bold;
-        margin-top: 8vh;
+    form{
+      margin-top: 30px;
+      max-width: 600px;
+      background: green;
 
-      }
-
-      form{
-        width:100vw;
-        display:flex;
+      div{
+        display: flex;
         flex-direction: column;
-        align-items: center;
-      }
 
-      .classDate{
-        padding: 0 15px !important;
-        
-      }
-
-      .error{
-        color: red;
-        
-      } 
-
-      button{
-        margin-top:20px;
-        padding: 10px 60px;
-
-      }        
-`;
-
-export const CollectionInput = styled.div`
-        display:flex;
-        flex-direction:row;
-        /* width: 80vw; */
-        max-width: 900px;
-        width: 100%;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin: 0 auto;
-        align-items: center;
-        @media(min-width: 1201px)
-        {
-          max-width: 1200px;
-          margin: 0 10px;
-          
+        label {
+          line-height: 2;
+          text-align: left;
+          display: block;
+          margin-bottom: 13px;
+          margin-top: 20px;
+          color: black;
+          font-size: 14px;
+          font-weight: 200;
         }
 
-        .MuiFormControl-root{
-          margin-top: 35px;
-          flex-grow: 1;
-          margin-right:20px;
-          width: 300px;
-          /*margin-top: 35px;
-          flex-grow: 1;
-          margin-right:20px; */
+        input{
+          /* width: 300px; */
+          display: block;
+          box-sizing: border-box;
+          width: 100%;
+          border-radius: 4px;
+          border: 1px solid black;
+          padding: 10px 15px;
+          margin-bottom: 10px;
+          font-size: 14px;
+          border-radius
+        }
+      }
 
-          @media(min-width: 481px)
-           {
-             width: 400px;
-             margin: 0 10px;
-           }
-           @media(min-width: 870px)
-           {
-             width: 400px;
-             margin: 0 10px;
-           }
-           @media(min-width: 1200px)
-           {
-             width: 450px;
-             margin: 0 10px;
-           }
-           @media(min-width: 1201px)
-           {
-             width: 450px;
-             margin: 0 10px;
-           }
+    }
 
-        } 
 
-      
-`
+`;
 
-export const Teste = styled.div`
+
+export const Global = styled.div`
   height: 100vh;
   width:100%
 

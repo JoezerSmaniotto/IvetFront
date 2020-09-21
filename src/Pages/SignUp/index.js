@@ -1,7 +1,7 @@
 import React,{useState} from 'react';
 import { useHistory } from 'react-router-dom';
-import { useForm } from "react-hook-form";
-import {Container, CollectionInput, Teste } from './styles';
+import { useForm, Controller } from "react-hook-form";
+import { Global, Form} from './styles';
 import { yupResolver } from '@hookform/resolvers';
 import * as yup from "yup";
 import { TextField } from '@material-ui/core';
@@ -9,52 +9,9 @@ import  Header  from '../../components/header';
 import api from '../../services/api';
 import cep from 'cep-promise';
 
+
     
 const  SignUp = () => {
-
-    const [srua,setSrua] = useState('');
-    const [sbairro,setSbairro] = useState('');
-    const [scidade,setScidade] = useState('');
-    const [sUF,setSUF] = useState('');
-    const [erroCep,SetErroCep] = useState('Informe o cep');
-
-    async function buscaCep (numberCep){
-        // console.log(typeof(numberCep))
-        // console.log(numberCep)
-       
-        if (numberCep !== '') {
-            try{
-                const returnCep = await cep(numberCep);
-        
-                const {state, city, street, neighborhood } = returnCep;
-                    setSrua(street);
-                    setSbairro(neighborhood);
-                    setScidade(city);
-                    setSUF(state) 
-                
-            }catch(err) {
-                
-                if(err.errors[1]?.message){
-                    console.log(err.errors[1].message);
-                    let menssage = err.errors[1].message;
-
-                    SetErroCep(menssage)
-                    
-                }else{
-                    console.log(err.errors[0].message);
-                    let menssage1 = err.errors[0].message;
-
-                    SetErroCep(menssage1)
-                    
-                }
-            }
-        }   
-        
-    
-    
-    }
-
-
 
     const SignupSchema = yup.object().shape({
         name: yup.string().required('Nome obrigatório'),
@@ -63,7 +20,13 @@ const  SignUp = () => {
         // data: yup.date().min( new Date(1900,01,01), 'Informe Uma data Valida' ),
         // data:yup.date().test('valida','Informe a data correta',(value)=>( console.log(value))),
         birthDate: yup.string().required("Informe Uma data"),
-        cep: yup.string().required(erroCep),   
+        // cep: yup.string().required(erroCep)  
+        // cep: yup.required.test('')
+        // cep: yup.string().required('Informe o CEP').min(8,'O cep tem que ter 8 digitos ').max(8,'O cep tem que ter 8 digitos '),
+        // cep: yup.string().test(),
+        //cep: yup.string().required('Informe o CEP').min(8,'O cep tem que ter 8 digitos ').max(8,'O cep tem que ter 8 digitos ').test('Cep não encontrado', function() {
+            
+     
         street: yup.string().required('Informe o nome da Rua'),
         number: yup.string().required('Informe o numero da casa'),
         complement: yup.string('Informe o um complemeto'),
@@ -74,184 +37,165 @@ const  SignUp = () => {
     
     });
 
-
-
-
-    const { register, handleSubmit, errors } = useForm({
+    const { register, handleSubmit, errors, setError, control, setValue } = useForm({
         resolver: yupResolver(SignupSchema)
     });
+
+
+
+
+    async function buscaCep (numberCep){
+       
+        let message = '' ;
+       
+        if (numberCep !== '' && numberCep.length === 8 ) {
+            
+            try{
+                const returnCep = await cep(numberCep);
+        
+                const {state, city, street, neighborhood } = returnCep;
+                    setValue("street", street);
+                    setValue("district", neighborhood);
+                    setValue("city", city);
+                    setValue("UF", state);
+                
+            }catch(err) {
+                
+                if(err.errors[1]?.message){ // Erro cep não encontrado
+                    // let message = err.errors[1].message;
+                    message = 'CEP NAO ENCONTRADO';
+                    console.log(message);
+
+              
+                }else{ // Formato invalido
+                    console.log(err.errors[0].message);
+                    message = 'CEP informado possui mais do que 8 caracteres.';
+                    console.log(message);
+
+                    // SetErroCep(message)
+                    
+                }
+            }
+        } 
+        return message       
+    }
+
+
+
+  
     
     const history = useHistory();
     async function onSubmit(data) {
        
         console.log("Data submitted: ", data);
-        const response = await api.post('users',data);
-        console.log("Retorno")
-        console.log(response);
-        history.push('/signIn');
+        // const response = await api.post('users',data);
+        // console.log("Retorno")
+        // console.log(response);
+        // history.push('/signIn');
        
     }
        
 
     return(
-        <Teste>
+        <Global>
             <Header/>
-            <Container>
+            
+            <Form>
+                
                 <h2>Cadastratro de dados </h2>
                 <form onSubmit={handleSubmit(onSubmit)} noValidate >
-                    <CollectionInput>    
+                    
                         <div>
-                            <TextField
-                            
-                                id="inputNome"
-                                type="text"
-                                name="name"
-                                inputRef={register}
-                                label='Nome'
-                            />
+                            <label for="fname">Nome:</label>
+                            <input type="text" id="fname" name="name"  ref={register} />
                             {errors.name && <p className="error">{errors.name.message}</p>}
                         </div> 
         
                         <div>  
-                            <TextField
-                            
-                                id="inputEmail"
-                                type="text"
-                                name="email"
-                                label='E-mail'
-                                inputRef={register}
-                            />
+                            <label for="inputEmail">Email:</label>
+                            <input type="text" id="inputEmail" name="email"  ref={register} />
                             {errors.email && <p className="error">{errors.email.message}</p>}
                         </div> 
                         
-                        <div>    
-                            <TextField
-                            
-                                type="password"
-                                name="password"
-                                id="inputPassword"
-                                label='Senha'
-                                inputRef={register}
-                            />
+
+                        <div>  
+                            <label for="inputPassword">Senha:</label>
+                            <input type="text" id="inputPassword" name="password"  ref={register} />
                             {errors.password && <p className="error">{errors.password.message}</p>}
                         </div>
 
-                        <div>
-                            <TextField
-                                id="date"
-                                label="Data Nascimento"
-                                type="date"
-                                // defaultValue="yyyy-mm-dd"
-                                name="birthDate"
-                                className="classDate"
-                                inputRef={register}
-                                InputLabelProps={{
-                                shrink: true,
-                                }}
-                            />
+                        <div>  
+                            <label for="inputbirthDate">Data Nascimento:</label>
+                            <input type="date" id="inputbirthDate" name="birthDate"  ref={register} />
                             {errors.birthDate && <p className="error">{errors.birthDate.message}</p>}
                         </div>
-                    
-                        <div>
-                            <TextField
-                            
-                                type="type"
-                                name="cep"
-                                id="inputCep"
-                                label='Cep'
-                                inputRef={register}
-                                onBlur={ (e) => buscaCep(e.target.value)}
-                            /> 
+
+
+
+                        <div>  
+                            <label for="inputCep">Cep:</label>
+                            <input type="text" id="inputCep" name="cep"  ref={register} 
+                                //onBlur={ (e) => buscaCep(e.target.value)}
+                                onBlur={ async (e) => {
+                                    let resultMessage = await buscaCep(e.target.value);
+                                    setError("cep", {
+                                      type: "manual",
+                                      message: resultMessage
+                                    });
+                                }}
+                            />
                             {errors.cep && <p className="error">{errors.cep.message}</p>}
-                            {/* {errors.cep && <p className="error">{erroCep}</p>} */}
                         </div>
 
-                        <div>
-                            <TextField
-                            
-                                type="type"
-                                name="street"
-                                id="inputStreet"
-                                label='Rua'
-                                inputRef={register}
-                                value={srua}
-                                onChange={e=> setSrua(e.target.value)}
-                            /> 
+                        <div>  
+                            <label for="inputbirthRua">Rua:</label>
+                            <input type="text" id="inputstreet" name="street"  ref={register} />
                             {errors.street && <p className="error">{errors.street.message}</p>}
                         </div>
-                        
-                        <div>
-                            <TextField
-                            
-                                type="type"
-                                name="number"
-                                id="inputNumber"
-                                label='Number'
-                                inputRef={register}
-                            /> 
+
+                        <div>  
+                            <label for="inputNumber">Numero:</label>
+                            <input type="text" id="inputNumber" name="number"  ref={register} />
                             {errors.number && <p className="error">{errors.number.message}</p>}
                         </div>
 
-                        <div>
-                            <TextField
-                            
-                                type="type"
-                                name="complement"
-                                id="inputComplement"
-                                label='Complemento'
-                                inputRef={register}
-                            /> 
-                            {errors.complement && <p className="error">{errors.complement.message}</p>}
-                        </div>
 
-                        <div>
-                            <TextField
-                            
-                                type="type"
-                                name="district"
-                                id="inputDistrict"
-                                label='Bairro'
-                                inputRef={register}
-                                value={sbairro}
-                                onChange={e=> setSbairro(e.target.value)}
-                            /> 
+
+                        <div>  
+                            <label for="inputComplement">Complemento:</label>
+                            <input type="text" id="inputComplement" name="complement"  ref={register} />
+                            {errors.complement && <p className="error">{errors.complement.message}</p>}
+                        </div>                        
+                        
+                        <div>  
+                            <label for="inputDistrict">Bairro:</label>
+                            <input type="text" id="inputDistrict" name="district"  ref={register} />
                             {errors.district && <p className="error">{errors.district.message}</p>}
                         </div>
 
-                        <div>
-                            <TextField
-                            
-                                type="type"
-                                name="city"
-                                id="inputCity"
-                                label='Cidade'
-                                inputRef={register} 
-                                value={scidade}
-                                onChange={e=> setScidade(e.target.value)}
-                            /> 
+
+                        <div>  
+                            <label for="inpuCity">Cidade:</label>
+                            <input type="text" id="inpuCity" name="city"  ref={register} />
                             {errors.city && <p className="error">{errors.city.message}</p>}
                         </div>
 
-                        <div>
-                            <TextField
-                            
-                                type="type"
-                                name="UF"
-                                id="inputUF"
-                                label='UF Estado'
-                                inputRef={register}
-                                value={sUF}
-                                onChange={e=> setSUF(e.target.value)}
 
-                            /> 
+                        
+                        <div>  
+                            <label for="inputUF">UF Estado:</label>
+                            <input type="text" id="inputUF" name="UF"  ref={register} />
                             {errors.UF && <p className="error">{errors.UF.message}</p>}
-                        </div> 
-                        </CollectionInput> 
+                        </div>
+
+                    
                         
                         <button type="submit">Concluir</button>                
                     </form>
-            </Container>
-        </Teste>
+
+                </Form>
+        </Global>
+         
     )
 
 }

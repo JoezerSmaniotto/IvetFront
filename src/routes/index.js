@@ -7,6 +7,7 @@ import SignUp from '../Pages/SignUp'
 import SignIn from '../Pages/SignIn'
 import SignUp1 from '../Pages/SignUp1';
 import Dashboard from '../Pages/Dashboard';
+import EditUser from '../Pages/EditUser';
 
 const Routes =  () => (
 
@@ -16,6 +17,7 @@ const Routes =  () => (
     <Route path="/signIn1" component={SignUp1} />
 
    
+    <RouteAut path="/editUser" component={EditUser} />
     <RouteAut path="/dashboard" component={Dashboard} />
   </Switch>
 );
