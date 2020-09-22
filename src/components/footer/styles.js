@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { shade } from 'polished';
+
 
 export const Component = styled.div`
     height: 7%;

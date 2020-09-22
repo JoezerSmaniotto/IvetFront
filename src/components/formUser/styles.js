@@ -36,9 +36,11 @@ export const Form = styled.div`
       button{
         /* width: 300px; */
         background: white;
+        color: blue;
+        font-weight: 400;
         padding: 10px 15px;
         border-radius: 4px;
-        border: 1px solid black;
+        border: 1px solid blue;
         transition: background-color 0.2s;
         width:45%;
         margin-top: 20px;

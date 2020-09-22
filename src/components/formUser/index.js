@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import { useHistory } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { Form, CollectionsInputs} from './styles';
@@ -9,7 +9,7 @@ import cep from 'cep-promise';
 import moment from 'moment';
 
     
-const  FormUser = ({optionPage}) => {  
+const  FormUser = ({optionPage, dataUser}) => {  
     const SignupSchema = yup.object().shape({
         name: yup.string().required('Nome obrigatório'),
         email: yup.string().required('E-mail obrigatório').email('Digite um e-mail válido'),
@@ -33,6 +33,45 @@ const  FormUser = ({optionPage}) => {
     const { register, handleSubmit, errors, setError, setValue } = useForm({
         resolver: yupResolver(SignupSchema)
     });
+
+
+    const [isButton, isSetButton] = useState(optionPage);
+    const [isReadOnly, isSetReadOnly] = useState(false);
+
+    // console.log("isButton");
+    // console.log(isButton);
+
+    function UpdateValues(){
+        isSetButton('Salvar');
+        console.log('Oiii Jojo')
+        isSetReadOnly(false);
+    }
+
+
+    useEffect(() => {
+        if(dataUser){
+      
+            const {birthDate, cep, city, complement, district, email, name, number, street,UF } = dataUser;
+            const [Birth,] = birthDate.split('T');
+            setValue("birthDate", Birth);
+            setValue("cep", cep);
+            setValue("city", city);
+            setValue("complement", complement);
+            setValue("district", district);
+            setValue("email", email);
+            setValue("name", name);
+            setValue("number", number);
+            setValue("street", street);
+            setValue("UF", UF);
+
+            isSetReadOnly(true);
+        
+        }
+
+    },[]);
+
+
+    
 
     async function buscaCep (numberCep){
        
@@ -71,26 +110,23 @@ const  FormUser = ({optionPage}) => {
         return message       
     }
 
-
+      const [save, setSave] = useState(false);
   
     const history = useHistory();
     async function onSubmit(data) {
-        if(optionPage === 'Cadastrar'){
+        if(isButton === 'Cadastrar'){
             console.log("Data submitted: ", data);
             const response = await api.post('users',data);
-            console.log("Retorno")
+            // console.log("Retorno")
             console.log(response);
             history.push('/signIn')          
         }
-        if(optionPage === 'Editar'){
-            console.log("Data submitted: ", data);
+        if(isButton === 'Salvar' &&  save ){
+            console.log("Data submitted Edit: ", data);
         }
-      
-       
+            
     }
     
-    //const [Isdisable, useIsDisable] =  useState('disabled');
-
     return(
    
          <Form>
@@ -100,26 +136,35 @@ const  FormUser = ({optionPage}) => {
                     <CollectionsInputs>
                         <div>
                             <label htmlFor="fname">Nome:</label>
-                            <input type="text" id="fname" name="name" ref={register} />
+                            <input type="text" id="fname" name="name" readOnly={isReadOnly} ref={register} />
                             {errors.name && <p className="error">{errors.name.message}</p>}
                         </div> 
         
                         <div>  
                             <label htmlFor="inputEmail">Email:</label>
-                            <input type="text" id="inputEmail" name="email"  ref={register} />
+                            <input type="text" id="inputEmail" name="email" readOnly={isReadOnly}  ref={register} />
                             {errors.email && <p className="error">{errors.email.message}</p>}
                         </div> 
                         
-
-                        <div>  
+                        {
+                            optionPage === 'Cadastrar' && 
+                            <div>  
+                              <label htmlFor="inputPassword">Senha:</label>
+                              <input type="password" id="inputPassword" name="password" ref={register} />
+                              {errors.password && <p className="error">{errors.password.message}</p>}
+                             </div>
+                            
+                        }
+                        
+                        {/* <div>  
                             <label htmlFor="inputPassword">Senha:</label>
-                            <input type="password" id="inputPassword" name="password"  ref={register} />
+                            <input type="password" id="inputPassword" name="password" ref={register} />
                             {errors.password && <p className="error">{errors.password.message}</p>}
-                        </div>
+                        </div> */}
 
                         <div>  
                             <label htmlFor="inputbirthDate">Data Nascimento:</label>
-                            <input type="date" id="inputbirthDate" name="birthDate"  ref={register} />
+                            <input type="date" id="inputbirthDate" name="birthDate"  readOnly={isReadOnly} ref={register} />
                             {errors.birthDate && <p className="error">{errors.birthDate.message}</p>}
                         </div>
 
@@ -127,7 +172,7 @@ const  FormUser = ({optionPage}) => {
 
                         <div>  
                             <label htmlFor="inputCep">Cep:</label>
-                            <input type="text" id="inputCep" name="cep"  ref={register} 
+                            <input type="text" id="inputCep" name="cep" readOnly={isReadOnly}  ref={register} 
                                 //onBlur={ (e) => buscaCep(e.target.value)}
                                 onBlur={ async (e) => {
                                     let resultMessage = await buscaCep(e.target.value);
@@ -142,13 +187,13 @@ const  FormUser = ({optionPage}) => {
 
                         <div>  
                             <label htmlFor="inputbirthRua">Rua:</label>
-                            <input type="text" id="inputstreet" name="street" ref={register} />
+                            <input type="text" id="inputstreet" name="street" readOnly={true} ref={register} />
                             {errors.street && <p className="error">{errors.street.message}</p>}
                         </div>
 
                         <div>  
                             <label htmlFor="inputNumber">Numero:</label>
-                            <input type="text" id="inputNumber" name="number"  ref={register} />
+                            <input type="text" id="inputNumber" name="number" readOnly={isReadOnly}  ref={register} />
                             {errors.number && <p className="error">{errors.number.message}</p>}
                         </div>
 
@@ -156,20 +201,20 @@ const  FormUser = ({optionPage}) => {
 
                         <div>  
                             <label htmlFor="inputComplement">Complemento:</label>
-                            <input type="text" id="inputComplement" name="complement"  ref={register} />
+                            <input type="text" id="inputComplement" name="complement" readOnly={isReadOnly}  ref={register} />
                             {errors.complement && <p className="error">{errors.complement.message}</p>}
                         </div>                        
                         
                         <div>  
                             <label htmlFor="inputDistrict">Bairro:</label>
-                            <input type="text" id="inputDistrict" name="district"  ref={register} />
+                            <input type="text" id="inputDistrict" name="district"  readOnly={true} ref={register} />
                             {errors.district && <p className="error">{errors.district.message}</p>}
                         </div>
 
 
                         <div>  
                             <label htmlFor="inpuCity">Cidade:</label>
-                            <input type="text" id="inpuCity" name="city" ref={register} />
+                            <input type="text" id="inpuCity" name="city" readOnly={true} ref={register} />
                             {errors.city && <p className="error">{errors.city.message}</p>}
                         </div>
 
@@ -177,12 +222,13 @@ const  FormUser = ({optionPage}) => {
                         
                         <div>  
                             <label htmlFor="inputUF">UF Estado:</label>
-                            <input type="text" id="inputUF" name="UF" ref={register} />
+                            <input type="text" id="inputUF" name="UF" readOnly={true} ref={register} />
                             {errors.UF && <p className="error">{errors.UF.message}</p>}
                         </div>
                         
                     </CollectionsInputs>  
-                    {optionPage === 'Cadastrar' ?   <button type="submit">Concluir</button> :  <button type="submit">Editar</button>    }
+                    {/* {optionPage === 'Cadastrar' ?   <button type="submit">Concluir</button> :  <button type="button"  >Editar</button>  } */}
+                    {isButton === 'Cadastrar' ?   <button type="submit">Concluir</button> :  isButton === 'Editar' ? <button type="button "  onClick={() => UpdateValues()  }  >Editar</button> : <button type="submit"  onClick={() => setSave(true)  } >Salvar</button> }
                             
                 </form>
             </Form>

@@ -23,6 +23,8 @@ export const Component = styled.div`
                 margin-left: 20px;
                 color: #FFF;
                 font-weight:700;
+                font-style: oblique;
+                /* font-style: italic; */
             }
             >nav{
                 margin-right: 20px; 
