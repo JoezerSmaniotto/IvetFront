@@ -68,7 +68,7 @@ const  FormUser = ({optionPage, dataUser}) => {
         
         }
 
-    },[]);
+    },[dataUser]);
 
 
     
