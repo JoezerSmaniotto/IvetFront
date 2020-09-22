@@ -3,12 +3,12 @@ import { shade } from 'polished';
 
 export const Component = styled.div`
     width:100vw;  
-    height: 7vh;
+    height: 7%;
     background: red;
     display: flex;
     align-items: center;
-    position: fixed;
-    z-index:1;
+    /* position: fixed; */
+    /* z-index:1; */
 
 
         header{
@@ -21,6 +21,8 @@ export const Component = styled.div`
 
             >p{
                 margin-left: 20px;
+                color: #FFF;
+                font-weight:700;
             }
             >nav{
                 margin-right: 20px; 

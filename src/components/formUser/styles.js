@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const Form = styled.div`
-    padding-top: 7vh;
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -9,17 +9,21 @@ export const Form = styled.div`
     width: 100%;
     height: 86%;
     h2{
-      margin-top: 30px;
+      /* margin-top: 30px; */
     }
 
     @media(max-width: 600px){
       height: auto;
       margin-bottom: 20px; 
+      h2{
+         margin-top: 30px;
+      }
 
     }
 
     form{
-      margin-top: 30px;
+     
+      /* margin-top: 30px; */
       margin:0 10px;
       max-width:1200px;
       min-width:320px;
@@ -52,7 +56,6 @@ export const Form = styled.div`
       }
 
     }
-
 
 `;
 
