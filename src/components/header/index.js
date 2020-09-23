@@ -10,10 +10,6 @@ const Header = () => {
     const { user } = useAuth();
 
     const [controllerMenu, SetControllerMenu] = useState(false);
-   
-    // function clickMenu (){    
-    //     SetControllerMenu(!controllerMenu);    
-    // }
   
     return(
         <Component>          
