@@ -48,7 +48,15 @@ export const Component1 = styled.div`
 
 
 export const Component = styled.div`
- 
+
+.teste{
+
+}
+
+.teste1{
+    
+}
+
 
 nav{
   background: #151515;

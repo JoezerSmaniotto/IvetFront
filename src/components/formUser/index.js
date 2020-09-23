@@ -38,13 +38,11 @@ const  FormUser = ({optionPage, dataUser}) => {
     const [isButton, isSetButton] = useState(optionPage);
     const [isReadOnly, isSetReadOnly] = useState(false);
 
-    // console.log("isButton");
-    // console.log(isButton);
-
+ 
     function UpdateValues(){
         isSetButton('Salvar');
-        console.log('Oiii Jojo')
         isSetReadOnly(false);
+       
     }
 
 
@@ -55,6 +53,7 @@ const  FormUser = ({optionPage, dataUser}) => {
             const [Birth,] = birthDate.split('T');
             setValue("birthDate", Birth);
             setValue("cep", cep);
+            setValue("password", '1234567890');
             setValue("city", city);
             setValue("complement", complement);
             setValue("district", district);
@@ -117,12 +116,16 @@ const  FormUser = ({optionPage, dataUser}) => {
         if(isButton === 'Cadastrar'){
             console.log("Data submitted: ", data);
             const response = await api.post('users',data);
-            // console.log("Retorno")
             console.log(response);
             history.push('/signIn')          
         }
         if(isButton === 'Salvar' &&  save ){
             console.log("Data submitted Edit: ", data);
+            isSetButton('Editar');
+            isSetReadOnly(true);
+            setSave(false);
+           
+
         }
             
     }
@@ -146,15 +149,15 @@ const  FormUser = ({optionPage, dataUser}) => {
                             {errors.email && <p className="error">{errors.email.message}</p>}
                         </div> 
                         
-                        {
-                            optionPage === 'Cadastrar' && 
+                        {/* {
+                            optionPage === 'Cadastrar' &&                               */}
                             <div>  
                               <label htmlFor="inputPassword">Senha:</label>
                               <input type="password" id="inputPassword" name="password" ref={register} />
                               {errors.password && <p className="error">{errors.password.message}</p>}
-                             </div>
+                             </div> 
                             
-                        }
+                        {/* } */}
                         
                         {/* <div>  
                             <label htmlFor="inputPassword">Senha:</label>

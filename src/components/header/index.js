@@ -1,4 +1,5 @@
 import React,{ useState } from 'react';
+import { Link } from 'react-router-dom';
 import {Component} from './styles';
 // import CssBaseline from '@material-ui/core/CssBaseline';
 // import Container from '@material-ui/core/Container';
@@ -12,59 +13,37 @@ const Header = () => {
     const { user } = useAuth();
 
     const [controllerMenu, SetControllerMenu] = useState(false);
-    const [controllerULLI, SetControllerULLI] = useState(false);
+    const [controllerULLI, SetControllerULLI] = useState(true);
    
 
     function clickMenu (){
        
         SetControllerMenu(!controllerMenu);
-        console.log(controllerMenu)
+        SetControllerULLI(!controllerULLI);
+        
     }
-    console.log(controllerMenu)
+  
     return(
-        <Component>         
-            {/* <header>
-                <p>MeuPet</p>
-                <nav>
-                    <a href="/" > Home </a>
-                    <a href="/" > Sobre </a>
-                    <a href="/" > Contato </a>
-                    <a href="/" > Login </a>
-                    <a href="/" > Cadastro </a>
-                    {
-                        !!user && 
-                        <>
-                            <a href="/" > Login </a>
-                            <a href="/" > Login </a>
-                        </>
-                        
-                    }
-
-                    
-                </nav>
-            </header> */}
-
-
+        <Component>          
             <nav>
-                <ul  className={(controllerULLI) ? 'hide' : ''}  >
+                <ul >
                     <li className="logo">MeuPet</li>
-                    <li className="items" className={(controllerMenu) ? 'show' : '' (controllerULLI) ? 'hide' : ''  } ><a href="#">Home</a></li>
-                    <li className="items" className={(controllerMenu) ? 'show' : '' (controllerULLI) ? 'hide' : ''  }  ><a href="#">About</a></li>
-                    <li className="items" className={(controllerMenu) ? 'show' : '' (controllerULLI) ? 'hide' : ''  }  ><a href="#">Blogs</a></li>
-                    <li className="items" className={(controllerMenu) ? 'show' : '' (controllerULLI) ? 'hide' : ''  }  ><a href="#">Contact</a></li>
-                    <li className="items" className={(controllerMenu) ? 'show' : '' (controllerULLI) ? 'hide' : ''  }  ><a href="#">Feedback</a></li>
-                    <li className="btn" onClick={()=> clickMenu()} ><a href="#"><i className="fas fa-bars"></i></a></li>
+                    <li  className={(controllerMenu) ? 'show items hide': "items" }  ><Link to="#">Sobre</Link></li>
+                    <li  className={(controllerMenu) ? 'show items hide': "items" }  ><Link to="#">Contrato</Link></li>
+                    <li  className={(controllerMenu) ? 'show items hide': "items" }  ><Link to={`/signIn`}>Login</Link></li>
+                    <li  className={(controllerMenu) ? 'show items hide': "items" }  ><Link to={`/`} >Cadastrar</Link></li>
+                    <li  className={(controllerMenu) ? 'btn hide': "btn" }  onClick={()=> clickMenu()} ><Link to="#"><i className="fas fa-bars"></i></Link></li>
 
                     {
                         !!user && 
                         <>
-                            <li className="items" className={(controllerMenu) ? 'show' : ''  (controllerULLI) ? 'hide' : ''  } ><a href="#">Contact</a></li>
-                            <li className="items" className={(controllerMenu) ? 'show' : '' (controllerULLI) ? 'hide' : ''  } ><a href="#">Feedback</a></li>
+                            <li  className={(controllerMenu) ? 'show items hide': "items" } ><Link to={`/editUser`}>Usuario</Link></li>
+                            <li  className={(controllerMenu) ? 'show items hide': "items" } ><Link to="#">Lista Pets</Link></li>
+                            <li  className={(controllerMenu) ? 'show items hide': "items" } ><Link to="#">Solicitações</Link></li>
                         </>
                     }   
                 </ul>
             </nav>
-            
         </Component>
     )
 }
