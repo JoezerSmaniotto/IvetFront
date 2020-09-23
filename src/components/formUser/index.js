@@ -133,8 +133,9 @@ const  FormUser = ({optionPage, dataUser}) => {
     return(
    
          <Form>
-                
-                <h2>Cadastratro de dados </h2>
+                { optionPage === 'Cadastrar' &&  <h2>Cadastratro de dados </h2>  } 
+                { optionPage !== 'Cadastrar' &&  <h2>Editar dados Usuario </h2>  } 
+
                 <form onSubmit={handleSubmit(onSubmit)} noValidate >
                     <CollectionsInputs>
                         <div>

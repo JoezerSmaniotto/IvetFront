@@ -7,8 +7,8 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
     const [data, setData] = useState(() => {
         // INICIO Essa logica só é chamada quando o user, sair ou recarregar a pagína Para carregar as informações do storage
-        const token = localStorage.getItem('@Gobarber:token');
-        const user = localStorage.getItem('@Gobarber:user');
+        const token = localStorage.getItem('@MeuPet:token');
+        const user = localStorage.getItem('@MeuPet:user');
         if (token && user) {
             return { token, user: JSON.parse(user) };
         }
@@ -23,8 +23,8 @@ const AuthProvider = ({ children }) => {
               password,
             });
             const { token, user } = response.data;    
-            localStorage.setItem('@Gobarber:token', token);
-            localStorage.setItem('@Gobarber:user', JSON.stringify(user)); // O user cm é uma obj, uso o JSON.stringify para converter em uma string;
+            localStorage.setItem('@MeuPet:token', token);
+            localStorage.setItem('@MeuPet:user', JSON.stringify(user)); // O user cm é uma obj, uso o JSON.stringify para converter em uma string;
             setData({ token, user }); // Se não colocar esse setData não consigo pegar os dados por quando faço login isso já aconteceu porem com osvalores null, mas chamando
             return true;
             // novamente o setData aqui eu irei passar os valores atualizados recebidos no login
@@ -36,8 +36,8 @@ const AuthProvider = ({ children }) => {
     }, []);
 
     const signOut = useCallback(() => {
-        localStorage.removeItem('@Gobarber:token');
-        localStorage.removeItem('@Gobarber:user');
+        localStorage.removeItem('@MeuPet:token');
+        localStorage.removeItem('@MeuPet:user');
     
         setData({});
     }, []);
