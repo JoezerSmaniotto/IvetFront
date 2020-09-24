@@ -8,7 +8,7 @@ import api from '../../services/api';
 import moment from 'moment';
 
     
-const  FormUser = ({optionPage, dataUser}) => {  
+const  FormRegister = ({optionPage, dataUser}) => {  
     const SignupSchema = yup.object().shape({
         namePet: yup.string().required('Nome obrigatório'),
         racaPet: yup.string().required('Raça obrigatório'),
@@ -25,6 +25,14 @@ const  FormUser = ({optionPage, dataUser}) => {
     const { register, handleSubmit, errors, setValue } = useForm({
         resolver: yupResolver(SignupSchema)
     });
+
+    const racas = [
+      { name: 'pitbull'},
+      { name: 'beage'},
+      { name: 'lulu Da Pomerania'},
+      { name: 'vira-lata' }
+      
+    ]
 
 
     // const [isButton, isSetButton] = useState(optionPage);
@@ -63,13 +71,14 @@ const  FormUser = ({optionPage, dataUser}) => {
 
 
     
-
-
+    console.log('')
+    
     const [save, setSave] = useState(false);
-  
+    
     const history = useHistory();
     async function onSubmit(data) {
         // if(isButton === 'Cadastrar'){
+            data.userId = dataUser.id;
             console.log("Data submitted: ", data);
             // const response = await api.post('pets',data);
             // console.log(response);
@@ -90,7 +99,7 @@ const  FormUser = ({optionPage, dataUser}) => {
    
          <Form>
                 { optionPage === 'CadastrarPet' &&  <h2>Cadastratra Pet </h2>  } 
-                {/* { optionPage !== 'EditaPet' &&  <h2>Editar dados Usuario </h2>  }  */}
+                { optionPage !== 'CadastrarPet' &&  <h2>Editar dados Pet </h2>  } 
 
                 <form onSubmit={handleSubmit(onSubmit)} noValidate >
                     <CollectionsInputs>
@@ -145,13 +154,5 @@ const  FormUser = ({optionPage, dataUser}) => {
 }
 
 
-export default FormUser;
+export default FormRegister;
 
-
-
-// return(
-//     <Container>
-//         <h2>Joezer</h2>
-//     </Container>
-
-// )

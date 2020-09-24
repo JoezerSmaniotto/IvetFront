@@ -10,7 +10,7 @@ import {useAuth} from '../../context/auth';
 
     
 const  EditUser = () => {
-    const {user} = useAuth ();
+    const {user} = useAuth();
     console.log("user");
     console.log(user);
     

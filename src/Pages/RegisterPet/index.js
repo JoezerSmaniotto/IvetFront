@@ -3,15 +3,18 @@ import { Global} from './styles';
 import  Header  from '../../components/header';
 import  Footer from  '../../components/footer';
 import  FormPet  from  '../../components/formPet';
+import {useAuth} from '../../context/auth';
 
-const  registerPet = () => {
+
+const  RegisterPet = () => {
+    const {user} = useAuth();
 
 
 
     return(
        <Global> 
         <Header/>
-        <FormPet optionPage={'CadastrarPet'} />
+        <FormPet optionPage={'CadastrarPet'} dataUser={user} />
         <Footer/>
        </Global>
     )
@@ -19,6 +22,6 @@ const  registerPet = () => {
 }
 
 
-export default registerPet;
+export default RegisterPet;
 
 
