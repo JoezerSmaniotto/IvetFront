@@ -40,6 +40,7 @@ const AuthProvider = ({ children }) => {
         localStorage.removeItem('@MeuPet:user');
     
         setData({});
+        
     }, []);
 
     return (

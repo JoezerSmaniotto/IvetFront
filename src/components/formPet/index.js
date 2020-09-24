@@ -115,7 +115,7 @@ const  FormUser = ({optionPage, dataUser}) => {
     async function onSubmit(data) {
         if(isButton === 'Cadastrar'){
             console.log("Data submitted: ", data);
-            const response = await api.post('users',data);
+            const response = await api.post('pets',data);
             console.log(response);
             history.push('/signIn')          
         }
@@ -133,8 +133,8 @@ const  FormUser = ({optionPage, dataUser}) => {
     return(
    
          <Form>
-                { optionPage === 'Cadastrar' &&  <h2>Cadastratro de dados </h2>  } 
-                { optionPage !== 'Cadastrar' &&  <h2>Editar dados Usuario </h2>  } 
+                { optionPage === 'CadastrarPet' &&  <h2>Cadastratra Pet </h2>  } 
+                {/* { optionPage !== 'EditaPet' &&  <h2>Editar dados Usuario </h2>  }  */}
 
                 <form onSubmit={handleSubmit(onSubmit)} noValidate >
                     <CollectionsInputs>

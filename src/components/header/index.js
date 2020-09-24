@@ -8,7 +8,7 @@ import { useAuth } from '../../context/auth';
 const Header = () => {
 
     const { user } = useAuth();
-
+    
     const [controllerMenu, SetControllerMenu] = useState(false);
   
     return(
@@ -25,9 +25,11 @@ const Header = () => {
                     {
                         !!user && 
                         <>
-                            <li  className={(controllerMenu) ? 'show items hide': "items" } ><Link to={`/editUser`}>Usuario</Link></li>
+                            <li  className={(controllerMenu) ? 'show items hide': "items" } ><Link to={`/editUser`}>Usuário</Link></li>
+                            <li  className={(controllerMenu) ? 'show items hide': "items" } ><Link to={`/registerPet`}>CadPets</Link></li>
                             <li  className={(controllerMenu) ? 'show items hide': "items" } ><Link to="#">Lista Pets</Link></li>
                             <li  className={(controllerMenu) ? 'show items hide': "items" } ><Link to="#">Solicitações</Link></li>
+                            <li  className={(controllerMenu) ? 'show items hide': "items" } ><Link to="#" >Sair</Link></li>
                         </>
                     }   
                 </ul>

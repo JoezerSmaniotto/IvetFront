@@ -49,14 +49,6 @@ export const Component1 = styled.div`
 
 export const Component = styled.div`
 
-.teste{
-
-}
-
-.teste1{
-    
-}
-
 
 nav{
   background: #151515;
@@ -121,7 +113,7 @@ nav ul li.btn{
 nav ul li.btn.hide i:before{
   content: '\f00d';
 }
-@media all and (max-width: 900px){
+@media all and (max-width: 1150px){
   nav{
     padding: 5px 30px;
   }
