@@ -5,9 +5,11 @@ import {Component} from './styles';
 import { useAuth } from '../../context/auth';
 
 
+
 const Header = () => {
 
-    const { user } = useAuth();
+   
+    const { user, signOut } = useAuth(); 
     
     const [controllerMenu, SetControllerMenu] = useState(false);
   
@@ -29,7 +31,7 @@ const Header = () => {
                             <li  className={(controllerMenu) ? 'show items hide': "items" } ><Link to={`/registerPet`}>CadPets</Link></li>
                             <li  className={(controllerMenu) ? 'show items hide': "items" } ><Link to="#">Lista Pets</Link></li>
                             <li  className={(controllerMenu) ? 'show items hide': "items" } ><Link to="#">Solicitações</Link></li>
-                            <li  className={(controllerMenu) ? 'show items hide': "items" } ><Link to="#" >Sair</Link></li>
+                            <li  className={(controllerMenu) ? 'show items hide': "items" } onClick={()=> signOut() } ><Link to="#" >Sair</Link></li>
                         </>
                     }   
                 </ul>

@@ -17,9 +17,9 @@ const SignupSchema = yup.object().shape({
   
   
 const  SignIn = () => {
-    const { user, signIn } = useAuth(); 
-
-    console.log(user);
+    const { signIn } = useAuth(); 
+    // const { user, signIn } = useAuth(); 
+    // console.log(user);
 
     const { register, handleSubmit, errors } = useForm({
         resolver: yupResolver(SignupSchema)
