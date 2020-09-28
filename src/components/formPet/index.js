@@ -1,10 +1,11 @@
-import React,{useState, useEffect} from 'react';
-import { useHistory } from 'react-router-dom';
-import { useForm } from "react-hook-form";
+import React,{useState} from 'react';
+// import { useHistory } from 'react-router-dom';
+import { useForm,   Controller} from "react-hook-form";
+import ReactSelect from "react-select";
 import { Form, CollectionsInputs} from './styles';
 import { yupResolver } from '@hookform/resolvers';
 import * as yup from "yup";
-import api from '../../services/api';
+// import api from '../../services/api';
 import moment from 'moment';
 
     
@@ -22,16 +23,16 @@ const  FormRegister = ({optionPage, dataUser}) => {
         img: yup.string(),   
     });
 
-    const { register, handleSubmit, errors, setValue } = useForm({
+    const { register, handleSubmit, errors, control } = useForm({
         resolver: yupResolver(SignupSchema)
     });
 
     const racas = [
-      { name: 'pitbull'},
-      { name: 'beage'},
-      { name: 'lulu Da Pomerania'},
-      { name: 'vira-lata' }
-      
+        { value: "pitbull", label: "pitbull" },
+        { value: "beage", label: "beage" },
+        { value: "lulu Da Pomerania", label: "lulu Da Pomerania" },
+        { value: "vira-lata", label: "vira-lata" },
+  
     ]
 
 
@@ -69,13 +70,9 @@ const  FormRegister = ({optionPage, dataUser}) => {
 
     // },[dataUser, setValue]);
 
-
+    //const [save, setSave] = useState(false);
     
-    console.log('')
-    
-    const [save, setSave] = useState(false);
-    
-    const history = useHistory();
+    // const history = useHistory();
     async function onSubmit(data) {
         // if(isButton === 'Cadastrar'){
             data.userId = dataUser.id;
@@ -114,6 +111,36 @@ const  FormRegister = ({optionPage, dataUser}) => {
                             <input type="text" id="fracaPet" name="racaPet" readOnly={isReadOnly} ref={register} />
                             {errors.racaPet && <p className="error">{errors.racaPet.message}</p>}
                         </div> 
+
+                        {/* <div>
+                            <label htmlFor="fsexo">Sexo do Pet:</label>
+                            <select type="text" id="fsexo" name="sexo" readOnly={isReadOnly} ref={register} />
+                            {errors.sexo && <p className="error">{errors.sexo.message}</p>}
+                        </div>  */}
+
+                        {/* <div>
+                            <label htmlFor="fsexo">Sexo do Pet:</label>
+                            <select name="select" id="fsexo" ref={register} >
+                                <option value="PitBull">PitBull</option> 
+                                <option value="valor2" selected >---------</option>
+                                <option value="ViraLata">Vira Lata</option>
+                            </select>
+                        </div>  */}
+
+                        <div>
+                            <div className="DivSelect" >
+                                <section class="SelectRaca" >
+                                    <label>Raça</label>
+                                    <Controller
+                                    as={ReactSelect}
+                                    options={racas}
+                                    name="ReactSelect"
+                                    isClearable
+                                    control={control}
+                                    />
+                                </section>
+                            </div>
+                        </div>
         
                         <div>
                             <label htmlFor="fsexo">Sexo do Pet:</label>

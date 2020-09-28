@@ -87,7 +87,7 @@ export const CollectionsInputs = styled.div`
         justify-content: center;
       }
 
-
+      
 
       label {
         line-height: 2;
@@ -116,6 +116,19 @@ export const CollectionsInputs = styled.div`
           color: red;
           /* font-size: 10px */
       }
+
+      
+
+      .SelectRaca{
+        width: 100%;
+      }
+
+  }
+
+  .DivSelect{
+    width: 100%;
+    display: flex;
+    flex-direction: row!important;
   }
 
 `;
