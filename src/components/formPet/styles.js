@@ -13,7 +13,7 @@ export const Form = styled.div`
     }
 
     @media(max-width: 600px){
-      height: auto;
+      height: 82%;
       margin-bottom: 20px; 
       h2{
          margin-top: 30px;
@@ -47,6 +47,7 @@ export const Form = styled.div`
         @media(max-width: 600px){
           width:90%;
           justify-content: center;
+         
 
         }
 
@@ -75,7 +76,7 @@ export const CollectionsInputs = styled.div`
 
 
 
-  div{
+  .ajuste{
       display: flex;
       flex-direction: column;
       margin:0 10px;
@@ -109,6 +110,19 @@ export const CollectionsInputs = styled.div`
         padding: 10px 15px;
         margin-bottom: 10px;
         font-size: 14px;
+      
+      }
+
+      select{
+        display: block;
+        box-sizing: border-box;
+        width: 100%;
+        border-radius: 4px;
+        border: 1px solid black;
+        padding: 10px 15px;
+        margin-bottom: 10px;
+        font-size: 14px;
+        background-color: white;
       
       }
 

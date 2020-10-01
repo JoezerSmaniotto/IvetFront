@@ -1,43 +1,64 @@
-import React,{useState} from 'react';
-// import { useHistory } from 'react-router-dom';
-import { useForm,   Controller} from "react-hook-form";
-import ReactSelect from "react-select";
+import React,{useState, useEffect} from 'react';
 import { Form, CollectionsInputs} from './styles';
-import { yupResolver } from '@hookform/resolvers';
-import * as yup from "yup";
-// import api from '../../services/api';
-import moment from 'moment';
 
+
+
+
+const  FormPet = ({optionPage, dataUser}) => {  
+
+
+    function Teste (inici){
+        if(inici){
+            return {};
+        }else {
+           const  dadosPet =  {namePet: "Bolinha", sexo: "Femea", raca: "pitbull", dataNasc: "2019-02-12", observacao: "Linda", img: "img3" } 
+           return  dadosPet;
+        }
+    }
     
-const  FormRegister = ({optionPage, dataUser}) => {  
-    const SignupSchema = yup.object().shape({
-        namePet: yup.string().required('Nome obrigatório'),
-        racaPet: yup.string().required('Raça obrigatório'),
-        sexo: yup.string().required('Sexo do pet obrigatório'),
-        dataNasc: yup.string().required("Informe Uma data").test('validaData','Verifique a data', (value) => {
-            const dataAtual = moment().format('YYYY-MM-DD')
-            const data = moment(value).isBetween('1900-01-01',dataAtual)
-            return data;   
-        }),
-        observacao: yup.string().required('Informe dados do pet'),         
-        img: yup.string(),   
-    });
+    const [messageForm, setMesssageForm ] = useState(Teste(true));
+    const {namePet, dataNasc, observacao, img, raca, sexo} = messageForm;
 
-    const { register, handleSubmit, errors, control } = useForm({
-        resolver: yupResolver(SignupSchema)
-    });
+    // useEffect(() => {
+    //     setMesssageForm({...messageForm, ['namePet']:'' })
+      
+    // },[]);
+
+    function handleChange(e){
+        messageForm[e.target.name] = e.target.value;
+        setMesssageForm({...messageForm})
+    }
+ 
+    function handleSubmit(e){
+        e.preventDefault();
+    
+        console.log(messageForm)
+    
+        // console.log(namePet, dataNasc, observacao, img )
+    }
 
     const racas = [
-        { value: "pitbull", label: "pitbull" },
-        { value: "beage", label: "beage" },
-        { value: "lulu Da Pomerania", label: "lulu Da Pomerania" },
-        { value: "vira-lata", label: "vira-lata" },
-  
+       
+        { value: "pitbull", name: "pitbull" },
+        { value: "beage", name: "beage" },
+        { value: "lulu Da Pomerania", name: "lulu Da Pomerania" },
+        { value: "vira-lata", name: "vira-lata" },
+    ];
+
+    const sexos = [
+        { value: "Macho", name: "Macho" },
+        { value: "Femea", name: "Femea" },
     ]
+   
 
 
-    // const [isButton, isSetButton] = useState(optionPage);
+
+
+    const [isButton, isSetButton] = useState(optionPage);
     const [isReadOnly, isSetReadOnly] = useState(false);
+
+
+
 
  
     // function UpdateValues(){
@@ -46,124 +67,77 @@ const  FormRegister = ({optionPage, dataUser}) => {
        
     // }
 
-
+    
     // useEffect(() => {
     //     if(dataUser){
-      
-    //         const {birthDate, cep, city, complement, district, email, name, number, street,UF } = dataUser;
-    //         const [Birth,] = birthDate.split('T');
-    //         setValue("birthDate", Birth);
-    //         setValue("cep", cep);
-    //         setValue("password", '1234567890');
-    //         setValue("city", city);
-    //         setValue("complement", complement);
-    //         setValue("district", district);
-    //         setValue("email", email);
-    //         setValue("name", name);
-    //         setValue("number", number);
-    //         setValue("street", street);
-    //         setValue("UF", UF);
-
-    //         isSetReadOnly(true);
+            
+           
         
     //     }
 
     // },[dataUser, setValue]);
-
-    //const [save, setSave] = useState(false);
-    
-    // const history = useHistory();
-    async function onSubmit(data) {
-        // if(isButton === 'Cadastrar'){
-            data.userId = dataUser.id;
-            console.log("Data submitted: ", data);
-            // const response = await api.post('pets',data);
-            // console.log(response);
-            // history.push('/signIn')          
-        // }
-        // if(isButton === 'Salvar' &&  save ){
-        //     console.log("Data submitted Edit: ", data);
-        //     isSetButton('Editar');
-        //     isSetReadOnly(true);
-        //     setSave(false);
-           
-
-        // }
-            
-    }
-    
     return(
    
-         <Form>
-                { optionPage === 'CadastrarPet' &&  <h2>Cadastratra Pet </h2>  } 
-                { optionPage !== 'CadastrarPet' &&  <h2>Editar dados Pet </h2>  } 
+            <Form>
 
-                <form onSubmit={handleSubmit(onSubmit)} noValidate >
+                {/* { optionPage === 'CadastrarPet' &&  <h2>Cadastratra Pet </h2>  } 
+                { optionPage !== 'CadastrarPet' &&  <h2>Editar dados Pet </h2>  }  */}
+                
+                <h2>Cadastratra Pet </h2>
+                <form  onSubmit={e => handleSubmit(e) } >
                     <CollectionsInputs>
-                        <div>
+                        <div className="ajuste" >
                             <label htmlFor="fnamePet">Nome Pet:</label>
-                            <input type="text" id="fnamePet" name="namePet" readOnly={isReadOnly} ref={register} />
-                            {errors.namePet && <p className="error">{errors.namePet.message}</p>}
+                            <input type="text" id="fnamePet" name="namePet" readOnly={isReadOnly} onChange={e => handleChange(e)} defaultValue={namePet} />
+                            {/* {errors.namePet && <p className="error">{errors.namePet.message}</p>} */}
                         </div> 
 
-                        <div>
-                            <label htmlFor="fracaPet">Raça Pet:</label>
-                            <input type="text" id="fracaPet" name="racaPet" readOnly={isReadOnly} ref={register} />
-                            {errors.racaPet && <p className="error">{errors.racaPet.message}</p>}
-                        </div> 
 
-                        {/* <div>
+                        <div className="ajuste" >
                             <label htmlFor="fsexo">Sexo do Pet:</label>
-                            <select type="text" id="fsexo" name="sexo" readOnly={isReadOnly} ref={register} />
-                            {errors.sexo && <p className="error">{errors.sexo.message}</p>}
-                        </div>  */}
-
-                        {/* <div>
-                            <label htmlFor="fsexo">Sexo do Pet:</label>
-                            <select name="select" id="fsexo" ref={register} >
-                                <option value="PitBull">PitBull</option> 
-                                <option value="valor2" selected >---------</option>
-                                <option value="ViraLata">Vira Lata</option>
+                            <select type="text" id="fsexo" name="sexo"  readOnly={isReadOnly} onChange={e => handleChange(e)} defaultValue={sexo} >
+                                <>
+                                <option value=""></option> 
+                                {sexos.map( sx => (
+                                    <option key={sx.value}  value={sx.value}>{sx.name}</option> 
+                                ))}
+                                </>
+                               
                             </select>
-                        </div>  */}
-
-                        <div>
-                            <div className="DivSelect" >
-                                <section class="SelectRaca" >
-                                    <label>Raça</label>
-                                    <Controller
-                                    as={ReactSelect}
-                                    options={racas}
-                                    name="ReactSelect"
-                                    isClearable
-                                    control={control}
-                                    />
-                                </section>
-                            </div>
-                        </div>
-        
-                        <div>
-                            <label htmlFor="fsexo">Sexo do Pet:</label>
-                            <input type="text" id="fsexo" name="sexo" readOnly={isReadOnly} ref={register} />
-                            {errors.sexo && <p className="error">{errors.sexo.message}</p>}
+                             {/* {errors.sexo && <p className="error">{errors.sexo.message}</p>} */}
                         </div> 
 
-                        <div>  
+                        <div className="ajuste" >
+                            <label htmlFor="fraca">Raça do Pet:</label>
+                            <select type="text" id="fraca" name="raca"  readOnly={isReadOnly} onChange={e => handleChange(e)} defaultValue={raca}  >
+                                <>
+                                <option value=""></option> 
+                                {racas.map( rc => (
+                                    <option key={rc.value} value={rc.value}>{rc.name}</option> 
+                                ))}
+                                </>
+                                {/* <option value="valor1">Valor 1</option>  */}
+                            </select>
+                             {/* {errors.raca && <p className="error">{errors.raca.message}</p>} */}
+                        </div> 
+                        
+    
+                        <div className="ajuste" >   
                             <label htmlFor="fdataNasc">Data Nascimento:</label>
-                            <input type="date" id="fdataNasc" name="dataNasc"  readOnly={isReadOnly} ref={register} />
-                            {errors.dataNasc && <p className="error">{errors.dataNasc.message}</p>}
+                            <input type="date" id="fdataNasc" name="dataNasc"  readOnly={isReadOnly} onChange={e => handleChange(e)} defaultValue={dataNasc}  />
+                            {/* {errors.dataNasc && <p className="error">{errors.dataNasc.message}</p>} */}
                         </div>
 
-                        <div>
+                        <div className="ajuste" >
                             <label htmlFor="fobservacao">Observações:</label>
-                            <input type="text" id="fobservacao" name="observacao" readOnly={isReadOnly} ref={register} />
-                            {errors.observacao && <p className="error">{errors.observacao.message}</p>}
+                            <input type="text" id="fobservacao" name="observacao" readOnly={isReadOnly} onChange={e => handleChange(e)} defaultValue={observacao}  />
+                            {/* {errors.observacao && <p className="error">{errors.observacao.message}</p>} */}
                         </div> 
 
-                        <div>
+                        <div className="ajuste" >
                             <label htmlFor="fimg">Imagem:</label>
-                            <input type="text" id="fimg" name="img" readOnly={isReadOnly} ref={register} />
-                            {errors.img && <p className="error">{errors.img.message}</p>}
+                            <input type="text" id="fimg" name="img" readOnly={isReadOnly} onChange={e => handleChange(e)} defaultValue={img}  />
+                            {/* {errors.img && <p className="error">{errors.img.message}</p>} */}
                         </div> 
                         
 
@@ -174,12 +148,12 @@ const  FormRegister = ({optionPage, dataUser}) => {
                     <button type="submit">Concluir</button> 
 
                 </form>
-            </Form>
+            </Form>   
          
     )
 
 }
 
 
-export default FormRegister;
+export default FormPet;
 
