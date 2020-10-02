@@ -8,7 +8,6 @@ const  FormPet = ({optionPage, dataUser}) => {
     const [isButton, isSetButton] = useState(optionPage);
     const [isReadOnly, isSetReadOnly] = useState(false);
     const [error, setError] = useState([{}]);
-    // const [mess, setMess] = useState({});
 
     const PetSchema = yup.object().shape({
         namePet: yup.string().required('Nome obrigatório'),
@@ -50,39 +49,48 @@ const  FormPet = ({optionPage, dataUser}) => {
     let ErrorMessage;
     // function getErros(er){
     async function getErros(){
-        // let ErrorMessage;
-        // console.log("ERROOOO")
-        // console.log(error)
-        ErrorNamePet= false; 
+       
 
 
         error.forEach(err => {
             console.log(err)
             if(err.path === 'namePet' ){
                 setMessageError( {...messageError, ["ErrorNamePet"]:true })
-                
-                console.log("ERROOOO")
                 return true;
             }
-            if(err.path === 'namePet' ){
-                setMessageError( {...messageError, ["ErrorNamePet"]:true })
+            if(err.path === 'sexo' ){
+                setMessageError( {...messageError, ["ErrorSexo"]:true })
+                return true;
                 
-                console.log("ERROOOO")
+            }
+            if(err.path === 'raca' ){
+                setMessageError( {...messageError, ["ErrorRaca"]:true })
+                return true;
+                
+            }
+            if(err.path === 'dataNasc' ){
+                setMessageError( {...messageError, ["ErrorDataNasc"]:true })
+                return true;
+             
+            }
+            if(err.path === 'observacao' ){
+                setMessageError( {...messageError, ["ErrorObservacao"]:true })
                 return true;
             }
+            
             
         
           
         });
         
         return false;
-        // return ErrorMessage;
+        
     }
 
 
 
     useEffect(()=>{
-        // console.log("Chamouuu ")
+       
         getErros();
 
     },[error])
@@ -100,11 +108,7 @@ const  FormPet = ({optionPage, dataUser}) => {
         if( !( await PetSchema.isValid(messageForm) )) {
             console.log("Errrou")
             await PetSchema.validate(messageForm, {abortEarly: false}).catch( function(err){console.log(err);  setError(err.inner) }  )
-            // const res = await getErros();
-           
-           
-
-
+            
         } else{
             setMessageError({})
             messageForm.userId = dataUser.id;
@@ -139,10 +143,9 @@ const  FormPet = ({optionPage, dataUser}) => {
         console.log("UpdateValues Entrou")
        
     }
-    // console.log(" Var error");
-    // console.log(error)
+  
     console.log(error)
-    console.log(ErrorNamePet)
+
     return(
    
             <Form>
@@ -156,10 +159,8 @@ const  FormPet = ({optionPage, dataUser}) => {
                             <label htmlFor="fnamePet">Nome Pet:</label>
                             <input type="text" id="fnamePet" name="namePet" readOnly={isReadOnly} onChange={e => handleChange(e)} defaultValue={namePet} />
                             {  ( ErrorNamePet === true )  && <p>Erro Nome</p> }
-                            {/* {console.log("Form")} */}
-                            {/* {console.log(getErros("namePet"))} */}
-                            {/* {(getErros("namePet")) === true && <p>"Erro Aqui"</p>} */}
-                        
+                            {  ( ErrorNamePet === true )  && <p></p> }
+
                             {/* {errors.namePet && <p className="error">{errors.namePet.message}</p>} */}
                         </div> 
                         
@@ -176,7 +177,8 @@ const  FormPet = ({optionPage, dataUser}) => {
                                 </>
                                
                             </select>
-                             {/* {errors.sexo && <p className="error">{errors.sexo.message}</p>} */}
+                            {  ( ErrorSexo === true )  && <p>Erro Sexo</p> }    
+                            {/* {errors.sexo && <p className="error">{errors.sexo.message}</p>} */}
                         </div> 
 
                         <div className="ajuste" >
@@ -188,21 +190,24 @@ const  FormPet = ({optionPage, dataUser}) => {
                                     <option key={rc.value} value={rc.value}>{rc.name}</option> 
                                 ))}
                                 </>
-                                {/* <option value="valor1">Valor 1</option>  */}
                             </select>
-                             {/* {errors.raca && <p className="error">{errors.raca.message}</p>} */}
+                            {  ( ErrorRaca  === true )  && <p>Erro Raca</p> }    
+                            {/* {errors.raca && <p className="error">{errors.raca.message}</p>} */}
                         </div> 
                         
     
                         <div className="ajuste" >   
                             <label htmlFor="fdataNasc">Data Nascimento:</label>
                             <input type="date" id="fdataNasc" name="dataNasc"  readOnly={isReadOnly} onChange={e => handleChange(e)} defaultValue={dataNasc}  />
+                            {  ( ErrorDataNasc  === true )  && <p>Erro Data</p> }    
                             {/* {errors.dataNasc && <p className="error">{errors.dataNasc.message}</p>} */}
+
                         </div>
 
                         <div className="ajuste" >
                             <label htmlFor="fobservacao">Observações:</label>
                             <input type="text" id="fobservacao" name="observacao" readOnly={isReadOnly} onChange={e => handleChange(e)} defaultValue={observacao}  />
+                            {  ( ErrorObservacao  === true )  && <p>Erro Observações</p> }  
                             {/* {errors.observacao && <p className="error">{errors.observacao.message}</p>} */}
                         </div> 
 
