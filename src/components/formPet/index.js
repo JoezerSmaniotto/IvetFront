@@ -24,30 +24,27 @@ const  FormPet = ({optionPage, dataUser}) => {
 
 
 
-    function Teste (optionPage){
+    function Initial (optionPage){
         if( optionPage === "CadastrarPet" ){
+            
             return {};
+
         }else {
-        //    console.log("oiii1")
+        
            const  dadosPet =  {namePet: "Bolinha", sexo: "Femea", raca: "pitbull", dataNasc: "2019-02-12", observacao: "Linda", img: "img3" } 
-           
-        //    isSetButton('Editar');
-        //    console.log("oiii2")
            return  dadosPet;
         }
 
     }
-
     
-    
-    const [messageForm, setMesssageForm ] = useState(Teste(optionPage));
+    const [messageForm, setMesssageForm ] = useState(Initial(optionPage));
     const {namePet, dataNasc, observacao, img, raca, sexo} = messageForm;
 
     const [messageError, setMessageError ] = useState({});
     let {ErrorNamePet, ErrorDataNasc, ErrorObservacao, ErrorImg, ErrorRaca, ErrorSexo} = messageError;
 
-    let ErrorMessage;
-    // function getErros(er){
+
+  
     async function getErros(){
        
 
