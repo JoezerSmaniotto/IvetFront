@@ -41,6 +41,7 @@ const  FormPet = ({optionPage, dataUser}) => {
     const {namePet, dataNasc, observacao, img, raca, sexo} = messageForm;
 
     const [messageError, setMessageError ] = useState({});
+    const [ aqui, setAqui ] = useState({});
     let {ErrorNamePet, ErrorDataNasc, ErrorObservacao, ErrorImg, ErrorRaca, ErrorSexo} = messageError;
 
 
@@ -50,9 +51,11 @@ const  FormPet = ({optionPage, dataUser}) => {
 
 
         error.forEach(err => {
-            console.log(err)
+    
+            let {path, message} = err
             if(err.path === 'namePet' ){
                 setMessageError( {...messageError, ["ErrorNamePet"]:true })
+                setAqui({...aqui, [err.path] : { messager: err.message  } })
                 return true;
             }
             if(err.path === 'sexo' ){
@@ -74,10 +77,7 @@ const  FormPet = ({optionPage, dataUser}) => {
                 setMessageError( {...messageError, ["ErrorObservacao"]:true })
                 return true;
             }
-            
-            
-        
-          
+     
         });
         
         return false;
@@ -107,7 +107,8 @@ const  FormPet = ({optionPage, dataUser}) => {
             await PetSchema.validate(messageForm, {abortEarly: false}).catch( function(err){console.log(err);  setError(err.inner) }  )
             
         } else{
-            setMessageError({})
+            setMessageError({});
+            setAqui({});
             messageForm.userId = dataUser.id;
             if(optionPage=== 'CadastrarPet'){
                 // Manda Para Um Rota
@@ -142,6 +143,9 @@ const  FormPet = ({optionPage, dataUser}) => {
     }
   
     console.log(error)
+    console.log("aqui")
+    console.log(aqui)
+    console.log(aqui.namePet?.messager)
 
     return(
    
@@ -156,9 +160,8 @@ const  FormPet = ({optionPage, dataUser}) => {
                             <label htmlFor="fnamePet">Nome Pet:</label>
                             <input type="text" id="fnamePet" name="namePet" readOnly={isReadOnly} onChange={e => handleChange(e)} defaultValue={namePet} />
                             {  ( ErrorNamePet === true )  && <p>Erro Nome</p> }
-                            {  ( ErrorNamePet === true )  && <p></p> }
+                            {  ( aqui.namePet )  && <p>{aqui.namePet.messager}</p> }
 
-                            {/* {errors.namePet && <p className="error">{errors.namePet.message}</p>} */}
                         </div> 
                         
                        
