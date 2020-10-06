@@ -34,6 +34,8 @@ const  SignIn = () => {
                 email: data.email,
                 password: data.password,
             });
+
+            console.log(retorno);
           
             if(retorno){
                 history.push('/dashboard');

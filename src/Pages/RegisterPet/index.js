@@ -14,8 +14,8 @@ const  RegisterPet = () => {
     return(
        <Global> 
         <Header/>
-        <FormPet optionPage={'Editar'} dataUser={user} />
-        {/* <FormPet optionPage={'CadastrarPet'} dataUser={user} /> */}
+        {/* <FormPet optionPage={'Editar'} dataUser={user} /> */}
+        <FormPet optionPage={'CadastrarPet'} dataUser={user} />
         <Footer/>
        </Global>
     )

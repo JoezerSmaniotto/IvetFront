@@ -23,7 +23,7 @@ const AuthProvider = ({ children }) => {
               email,
               password,
             });
-            const { token, user } = response.data;    
+            const { token, user } = response.data; 
             localStorage.setItem('@MeuPet:token', token);
             localStorage.setItem('@MeuPet:user', JSON.stringify(user)); // O user cm é uma obj, uso o JSON.stringify para converter em uma string;
             setData({ token, user }); // Se não colocar esse setData não consigo pegar os dados por quando faço login isso já aconteceu porem com osvalores null, mas chamando

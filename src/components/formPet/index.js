@@ -2,8 +2,10 @@ import React,{useState, useEffect} from 'react';
 import { Form, CollectionsInputs} from './styles';
 import * as yup from "yup";
 import moment from 'moment';
+import api from '../../services/api';
+import { useHistory } from 'react-router-dom';
 
-const  FormPet = ({optionPage, dataUser}) => {  
+const  FormPet = ({optionPage, dataUser }) => {  
 
     const [isButton, isSetButton] = useState(optionPage);
     const [isReadOnly, isSetReadOnly] = useState(false);
@@ -11,7 +13,7 @@ const  FormPet = ({optionPage, dataUser}) => {
 
     const PetSchema = yup.object().shape({
         namePet: yup.string().required('Nome obrigatório'),
-        raca: yup.string().required('Raça obrigatório'),
+        racaPet: yup.string().required('Raça obrigatório'),
         sexo: yup.string().required('Sexo do pet obrigatório'),
         dataNasc: yup.string().required("Informe Uma data").test('validaData','Verifique a data', (value) => {
             const dataAtual = moment().format('YYYY-MM-DD')
@@ -31,14 +33,14 @@ const  FormPet = ({optionPage, dataUser}) => {
 
         }else {
         
-           const  dadosPet =  {namePet: "Bolinha", sexo: "Femea", raca: "pitbull", dataNasc: "2019-02-12", observacao: "Linda", img: "img3" } 
+           const  dadosPet =  {namePet: "Bolinha", sexo: "Femea", racaPet: "pitbull", dataNasc: "2019-02-12", observacao: "Linda", img: "img3" } 
            return  dadosPet;
         }
 
     }
     
     const [messageForm, setMesssageForm ] = useState(Initial(optionPage));
-    const {namePet, dataNasc, observacao, img, raca, sexo} = messageForm;
+    const {namePet, dataNasc, observacao, img, racaPet, sexo} = messageForm;
     const [ ErrorMessage, setErrorMessage ] = useState({});
     
 
@@ -62,7 +64,7 @@ const  FormPet = ({optionPage, dataUser}) => {
                 return true;
                 
             }
-            if(err.path === 'raca' ){
+            if(err.path === 'racaPet' ){
               
                 setErrorMessage({...ErrorMessage,[err.path] : { messager: err.message  } })
                 return true;
@@ -94,6 +96,7 @@ const  FormPet = ({optionPage, dataUser}) => {
 
     },[error])
 
+    let history = useHistory();
 
     function handleChange(e){
         messageForm[e.target.name] = e.target.value;
@@ -101,7 +104,7 @@ const  FormPet = ({optionPage, dataUser}) => {
     }
  
     async function handleSubmit(e){
-
+        
         e.preventDefault();
         
         if( !( await PetSchema.isValid(messageForm) )) {
@@ -110,12 +113,33 @@ const  FormPet = ({optionPage, dataUser}) => {
           
             
         } else{
+
            
             setErrorMessage({});
-            console.log(messageForm)
+            // console.log(messageForm)
             messageForm.userId = dataUser.id;
+            // const token = dataUser.token;
+            // console.log("TOKEN")
+            // console.log(token);
+           
             if(optionPage=== 'CadastrarPet'){
                 // Manda Para Um Rota
+                //console.log("Data submitted: ", messageForm);
+                console.log("OIII ENCONTROU")
+                console.log(messageForm)
+                const token = localStorage.getItem('@MeuPet:token');
+                
+                const auth = {
+                    headers: {Authorization:'Bearer ' +token} 
+                }
+
+                const response = await api.post('pets',messageForm, auth);
+
+
+
+                // const response = await api.post('pets',messageForm);
+                // console.log(response);
+                // history.push('/editUser')  
 
     
             }else if(optionPage=== 'Editar') {
@@ -147,7 +171,9 @@ const  FormPet = ({optionPage, dataUser}) => {
        
     }
   
-
+    // console.log("USERR");
+    // console.log("tokenUser");
+    // console.log(localStorage.getItem('@MeuPet:token'));
     return(
    
             <Form>
@@ -182,7 +208,7 @@ const  FormPet = ({optionPage, dataUser}) => {
 
                         <div className="ajuste" >
                             <label htmlFor="fraca">Raça do Pet:</label>
-                            <select type="text" id="fraca" name="raca"  disabled={isReadOnly} onChange={e => handleChange(e)} defaultValue={raca}  >
+                            <select type="text" id="fraca" name="racaPet"  disabled={isReadOnly} onChange={e => handleChange(e)} defaultValue={racaPet}  >
                                 <>
                                 <option value=""></option> 
                                 {racas.map( rc => (
@@ -190,7 +216,7 @@ const  FormPet = ({optionPage, dataUser}) => {
                                 ))}
                                 </>
                             </select>
-                            {  ( ErrorMessage.raca )  && <p className="error">{ErrorMessage.raca.messager}</p> }          
+                            {  ( ErrorMessage.racaPet )  && <p className="error">{ErrorMessage.racaPet.messager}</p> }          
                         </div> 
                         
     
