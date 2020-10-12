@@ -8,6 +8,7 @@ import SignIn from '../Pages/SignIn'
 import Dashboard from '../Pages/Dashboard';
 import EditUser from '../Pages/EditUser';
 import RegisterPet from '../Pages/RegisterPet'
+import ListPets from '../Pages/ListPets'
 
 const Routes =  () => (
 
@@ -19,6 +20,7 @@ const Routes =  () => (
     <RouteAut path="/editUser" component={EditUser} />
     <RouteAut path="/dashboard" component={Dashboard} />
     <RouteAut path="/registerPet" component={RegisterPet} />
+    <RouteAut path="/listPets" component={ListPets} />
   </Switch>
 );
 

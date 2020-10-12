@@ -25,11 +25,11 @@ const Header = () => {
                     <li  className={(controllerMenu) ? 'btn hide': "btn" }  onClick={()=> SetControllerMenu(!controllerMenu)} ><Link to="#"><i className="fas fa-bars"></i></Link></li>
 
                     {
-                        !!user && 
+                        !!user &&  
                         <>
                             <li  className={(controllerMenu) ? 'show items hide': "items" } ><Link to={`/editUser`}>Usuário</Link></li>
                             <li  className={(controllerMenu) ? 'show items hide': "items" } ><Link to={`/registerPet`}>CadPets</Link></li>
-                            <li  className={(controllerMenu) ? 'show items hide': "items" } ><Link to="#">Lista Pets</Link></li>
+                            <li  className={(controllerMenu) ? 'show items hide': "items" } ><Link to={`/listPets`}>Lista Pets</Link></li>
                             <li  className={(controllerMenu) ? 'show items hide': "items" } ><Link to="#">Solicitações</Link></li>
                             <li  className={(controllerMenu) ? 'show items hide': "items" } onClick={()=> signOut() } ><Link to="#" >Sair</Link></li>
                         </>
