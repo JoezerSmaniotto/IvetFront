@@ -4,6 +4,7 @@ import  Header  from '../../components/header';
 import  Footer from  '../../components/footer';
 import  Card from  '../../components/card';
 import api from '../../services/api';
+
 // import  FormUser  from  '../../components/formUser';
 // import {useAuth} from '../../context/auth';
 
@@ -43,17 +44,17 @@ const  ListPets = () => {
     return(
         <Global> 
             <Header/>
-
-            {/* <h1>Seus Pets Cadastrados</h1> */}
+           
+            <h1>Seus Pets Cadastrados</h1>
 
             <Section>
 
-                {   listPets.map( (pet) =>(
+                {   
+                    listPets.map( (pet) =>(
                     
-                    <Card pet={pet} />
-    
-
-                ))
+                        <Card pet={pet} />
+                    
+                    ))
                 }
             
             </Section>

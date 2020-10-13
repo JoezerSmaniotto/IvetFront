@@ -7,7 +7,8 @@ export const Component = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: blue;
+    /* background-color: blue; */
+    background: black;
     footer{
         display: flex;
         justify-content: center;

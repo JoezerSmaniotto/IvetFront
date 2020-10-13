@@ -19,7 +19,7 @@ const Header = () => {
                 <ul >
                     <li className="logo">MeuPet</li>
                     <li  className={(controllerMenu) ? 'show items hide': "items" }  ><Link to="#">Sobre</Link></li>
-                    <li  className={(controllerMenu) ? 'show items hide': "items" }  ><Link to="#">Contrato</Link></li>
+                    <li  className={(controllerMenu) ? 'show items hide': "items" }  ><Link to="#">Contato</Link></li>
                     <li  className={(controllerMenu) ? 'show items hide': "items" }  ><Link to={`/signIn`}>Login</Link></li>
                     <li  className={(controllerMenu) ? 'show items hide': "items" }  ><Link to={`/`} >Cadastrar</Link></li>
                     <li  className={(controllerMenu) ? 'btn hide': "btn" }  onClick={()=> SetControllerMenu(!controllerMenu)} ><Link to="#"><i className="fas fa-bars"></i></Link></li>
