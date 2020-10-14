@@ -3,16 +3,22 @@ import {Component} from './styles';
 
 
 // const Card = ( {pet} {delCard} ) => { 
-const Card = ( {pet, listPets, setListPets } ) => { 
+const Card = ( {pet, listPets, setListPets, setEditPet } ) => { 
 
-    // const  [listPets, setListPets] = useState([{}]);
     const deletePet = (id) => {
         console.log("ID", id);
         const remove = listPets.filter( Rpet => Rpet.id !== id);
         setListPets([...remove]);
         // Fazer a deleção no Back
-        // const response = await api.delete(`/repositories/${id}`)
+        // E X E M P L O const response = await api.delete(`/repositories/${id}`)
+    }
 
+    const EditPet = (id) => {
+        const edit = listPets.find( Epet => Epet.id === id);
+        setEditPet(edit);
+
+        // Fazer a  E D I C A O  no Back
+        // E X E M P L O const response = await api.delete(`/repositories/${id}`)
     }
 
     return(
@@ -27,7 +33,7 @@ const Card = ( {pet, listPets, setListPets } ) => {
                         
                     </div>
                     <div className="actionCard">
-                        <button className="actions">Editar</button>
+                        <button className="actions" onClick={() => EditPet(pet.id)} >Editar</button>
                         <button className="actions" onClick={() => deletePet(pet.id)} >Excluir</button>
                     </div>
                 </div>

@@ -1,24 +1,20 @@
 import React, {useState, useEffect} from 'react';
-// import React from 'react';
 import { Global, Section} from './styles';
 import  Header  from '../../components/header';
 import  Footer from  '../../components/footer';
 import  Card from  '../../components/card';
 import api from '../../services/api';
+import FormEditPet from '../../components/formEditPet';
 // import {useListPetsUser} from '../../context/index';
-
-// import  FormUser  from  '../../components/formUser';
-// import {useAuth} from '../../context/auth';
-
-
-
 
     
 const  ListPets = () => {
     // const {listPets, setListPets} = useListPetsUser();
         
     const  [listPets, setListPets] = useState([{}]);
+    const  [editPet, setEditPet] = useState();
     
+
 
     useEffect(() => {
         // if(!controll){
@@ -41,15 +37,21 @@ const  ListPets = () => {
         <Global> 
             <Header/>
            
-            <h1>Seus Pets Cadastrados</h1>
 
+            { editPet &&
+
+                <FormEditPet optionPage={editPet}  setEditPet={setEditPet} setListPets={setListPets} listPets={listPets}  />
+
+            }
+
+            <h1>Seus Pets Cadastrados</h1>
             <Section>
 
                 {   
                     listPets.map( (pet) =>(
                     
                         // <Card pet={pet} delCard={delete(pet.id)}/>
-                        <Card pet={pet} listPets={listPets} setListPets={setListPets} />
+                        <Card pet={pet} listPets={listPets} setListPets={setListPets} setEditPet={setEditPet} />
 
                     ))
                 }
