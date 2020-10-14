@@ -1,13 +1,19 @@
 import React from 'react';
 import {Component} from './styles';
 
-const Card = ( {pet} ) => { 
 
+// const Card = ( {pet} {delCard} ) => { 
+const Card = ( {pet, listPets, setListPets } ) => { 
+
+    // const  [listPets, setListPets] = useState([{}]);
     const deletePet = (id) => {
         console.log("ID", id);
+        const remove = listPets.filter( Rpet => Rpet.id !== id);
+        setListPets([...remove]);
+        // Fazer a deleção no Back
+        // const response = await api.delete(`/repositories/${id}`)
 
     }
-
 
     return(
         <Component>
