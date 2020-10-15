@@ -10,6 +10,8 @@ const  FormPet = ({optionPage, dataUser }) => {
     const [isButton, isSetButton] = useState(optionPage);
     const [isReadOnly, isSetReadOnly] = useState(false);
     const [error, setError] = useState([{}]);
+    
+    const [cardFile, setCardFile] = useState();
 
     const PetSchema = yup.object().shape({
         namePet: yup.string().required('Nome obrigatório'),
@@ -21,7 +23,7 @@ const  FormPet = ({optionPage, dataUser }) => {
             return data;   
         }),
         observacao: yup.string().required('Informe dados do pet'),         
-        img: yup.string(),   
+        // img: yup.string(),   
     });
 
 
@@ -48,40 +50,11 @@ const  FormPet = ({optionPage, dataUser }) => {
   
     async function getErros(){
        
-
-
         error.forEach(err => {
-    
-            // let {path, message} = err
-            if(err.path === 'namePet' ){
-              
-                setErrorMessage({...ErrorMessage,[err.path] : { messager: err.message  } })
-                return true;
-            }
-            if(err.path === 'sexo' ){
-               
-                setErrorMessage({...ErrorMessage,[err.path] : { messager: err.message  } })
-                return true;
-                
-            }
-            if(err.path === 'racaPet' ){
-              
-                setErrorMessage({...ErrorMessage,[err.path] : { messager: err.message  } })
-                return true;
-                
-            }
-            if(err.path === 'dataNasc' ){
-             
-                setErrorMessage({...ErrorMessage,[err.path] : { messager: err.message  } })
-                return true;
-             
-            }
-            if(err.path === 'observacao' ){
-               
-                setErrorMessage({...ErrorMessage,[err.path] : { messager: err.message  } })
-                return true;
-            }
-     
+
+            setErrorMessage({...ErrorMessage,[err.path] : { messager: err.message  } })
+            return true;
+
         });
         
         return false;
@@ -113,8 +86,9 @@ const  FormPet = ({optionPage, dataUser }) => {
           
             
         } else{
-
+            
            
+
             setErrorMessage({});
             // console.log(messageForm)
             messageForm.userId = dataUser.id;
@@ -123,8 +97,7 @@ const  FormPet = ({optionPage, dataUser }) => {
             // console.log(token);
            
             if(optionPage=== 'CadastrarPet'){
-                // Manda Para Um Rota
-                //console.log("Data submitted: ", messageForm);
+               
                 console.log("OIII ENCONTROU")
                 console.log(messageForm)
                 const token = localStorage.getItem('@MeuPet:token');
@@ -133,15 +106,8 @@ const  FormPet = ({optionPage, dataUser }) => {
                     headers: {Authorization:'Bearer ' +token} 
                 }
 
-                const response = await api.post('pets',messageForm, auth);
+                // const response = await api.post('pets',messageForm, auth);
 
-
-
-                // const response = await api.post('pets',messageForm);
-                // console.log(response);
-                // history.push('/editUser')  
-
-    
             }else if(optionPage=== 'Editar') {
                  // Manda Para Um Rota
             }
@@ -150,6 +116,47 @@ const  FormPet = ({optionPage, dataUser }) => {
         
 
     }
+    // const formData = new FormData();
+
+    /*--------------------------------------*/
+    async function handleUploadFile (files){
+    const file = this.$ref.fileFotos.files[0];
+
+
+    console.log(file);
+
+    //    const formData = new FormData();
+    //    formData.append('img', files[0]);
+    //    console.log(formData);
+
+    }
+
+    // const handleUploadFile = (e) => setCardFile(e.target.files[0]);
+
+    // const addNewCard = async () => {
+    //     // setSaving(true)
+    //     const data = new FormData();
+    //     data.append('img', cardFile);
+
+    //     console.log(data);
+    
+    //     // ...
+    //     // Inserimos aqui nossa chamada POST/PUT
+    //     // para enviarmos nosso arquivo.
+    // }
+
+
+
+    // let updatePhoto = event => {   willl
+    //     console.log(event.target.files[0]);
+    //     const formData = new FormData();
+    //     formData.append('img', event.target.files[0]);
+    //     console.log("OII");
+    //     console.log(formData.get("img"));
+    // }
+
+
+    /*--------------------------------------*/
 
     const racas = [
        
@@ -171,9 +178,16 @@ const  FormPet = ({optionPage, dataUser }) => {
        
     }
   
-    // console.log("USERR");
-    // console.log("tokenUser");
-    // console.log(localStorage.getItem('@MeuPet:token'));
+    
+    // console.log("Img1")
+    // console.log(cardFile);
+
+    // console.log("Img1")
+    // console.log(formData)
+
+    
+   
+
     return(
    
             <Form>
@@ -181,7 +195,7 @@ const  FormPet = ({optionPage, dataUser }) => {
                 { optionPage === 'CadastrarPet' &&  <h2>Cadastratra Pet </h2>  } 
                 { optionPage !== 'CadastrarPet' &&  <h2>Editar dados Pet </h2>  } 
                 
-                <form  onSubmit={e => handleSubmit(e) } >
+                <form  onSubmit={e => handleSubmit(e) }  method="post" enctype='multipart/form-data' >
                     <CollectionsInputs>
                         <div className="ajuste" >
                             <label htmlFor="fnamePet">Nome Pet:</label>
@@ -234,8 +248,10 @@ const  FormPet = ({optionPage, dataUser }) => {
 
                         <div className="ajuste" >
                             <label htmlFor="fimg">Imagem:</label>
-                            <input type="text" id="fimg" name="img" readOnly={isReadOnly} onChange={e => handleChange(e)} defaultValue={img}  />
-                            {  ( ErrorMessage.img )  && <p className="error">{ErrorMessage.img.messager}</p> }
+                              {/* <input type="file" accept="image/*"  id="fimg" name="img" readOnly={isReadOnly} onChange={updatePhoto} /> */}
+                            <input type="file" accept="image/*"  id="fimg" name="img" readOnly={isReadOnly} onChange={e => handleUploadFile(e.target.files)} />
+                            {/* <input type="text" id="fimg" name="img" readOnly={isReadOnly} onChange={e => handleChange(e)} defaultValue={img}  />  */}
+                            {/* {  ( ErrorMessage.img )  && <p className="error">{ErrorMessage.img.messager}</p> } */}
                         </div> 
                         
 
@@ -244,7 +260,9 @@ const  FormPet = ({optionPage, dataUser }) => {
                     {/* {isButton === 'CadastrarPet' ?   <button type="submit">Concluir</button> :  isButton === 'Editar' ? <button type="button "  onClick={() => UpdateValues()  }  >Editar</button> : <button type="submit"  onClick={() => setSave(true)  } >Salvar</button> } */}
                     {isButton === 'CadastrarPet' ?   <button type="submit">Concluir</button> :  isButton === 'Editar' ? <button type="button " onClick={() => UpdateValues()  }  >Editar</button> : <button type="submit" >Salvar</button> }
                     {/* <button type="submit">Concluir</button>  */}
-                
+
+
+                   
 
                 </form>
             </Form>   
