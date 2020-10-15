@@ -7,6 +7,8 @@ import moment from 'moment';
 
 const FormEditPet = ({optionPage, setEditPet, setListPets, listPets}) => {  
 
+    window.scrollTo( 0, 0 );
+
     const [isButton, isSetButton] = useState('Editar');
     const [isReadOnly, isSetReadOnly] = useState(false);
     const [error, setError] = useState([{}]);
@@ -80,27 +82,33 @@ const FormEditPet = ({optionPage, setEditPet, setListPets, listPets}) => {
             
         } else{
 
-           
             setErrorMessage({});
          
-            console.log("OIII ENCONTROU")
-            console.log(messageForm)
-            console.log(optionPage)
-          
-            // const res = {...optionPage}
+            // console.log("OIII ENCONTROU")
+            // console.log(messageForm)
+            // console.log(optionPage)   
 
-            // const data = `${messageForm.dataNasc}T`
-            // res.dataNasc = 
-            // res.img = messageForm.img;
-            // res.namePet = messageForm.namePet;
-            // res.observacao = messageForm.observacao;
-            // res.racaPet = messageForm.racaPet;
-            // res.sexo = messageForm.sexo;
+            //  A Q U I   É  A P E N A S   A  P A R T E  V I S U A L,  P O I S   A T U A L I Z O  0   S T A T E   D E   L I S T E  P E T S
+
+            const listPetsCopy = JSON.parse(JSON.stringify(listPets)); // C O P I A
+            const index = listPetsCopy.findIndex( pet => pet.id === optionPage.id); 
+            listPetsCopy[index].namePet = messageForm.namePet;
 
 
+            const [ ,datahour] = optionPage.dataNasc.split('T'); 
+            const data = `${messageForm.dataNasc}T${datahour}`
 
-            // const result = listPets.
-            setEditPet('');
+            
+            listPetsCopy[index].img = messageForm.img;
+            listPetsCopy[index].namePet = messageForm.namePet;
+            listPetsCopy[index].observacao = messageForm.observacao;
+            listPetsCopy[index].racaPet = messageForm.racaPet;
+            listPetsCopy[index].sexo = messageForm.sexo;
+            listPetsCopy[index].dataNasc = data;
+        
+            setListPets(listPetsCopy);
+            setEditPet(); // Aqui ELE ESCONDE O FORM
+            
 
             //  M A N D A   P A R A   A   R O T A
 

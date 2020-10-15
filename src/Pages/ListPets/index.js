@@ -32,7 +32,7 @@ const  ListPets = () => {
     },[]);
 
 
-    console.log(listPets);
+    // console.log(listPets);
     return(
         <Global> 
             <Header/>
