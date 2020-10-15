@@ -11,7 +11,7 @@ const  FormPet = ({optionPage, dataUser }) => {
     const [isReadOnly, isSetReadOnly] = useState(false);
     const [error, setError] = useState([{}]);
     
-    const [cardFile, setCardFile] = useState();
+    const [imgFile, setImgFile] = useState({});
 
     const PetSchema = yup.object().shape({
         namePet: yup.string().required('Nome obrigatório'),
@@ -90,6 +90,8 @@ const  FormPet = ({optionPage, dataUser }) => {
            
 
             setErrorMessage({});
+
+            addNewImg();
             // console.log(messageForm)
             messageForm.userId = dataUser.id;
             // const token = dataUser.token;
@@ -119,19 +121,44 @@ const  FormPet = ({optionPage, dataUser }) => {
     // const formData = new FormData();
 
     /*--------------------------------------*/
-    async function handleUploadFile (files){
-    const file = this.$ref.fileFotos.files[0];
+    // async function handleUploadFile (files){
+    // const file = this.$ref.fileFotos.files[0];
 
 
-    console.log(file);
+    // console.log(file);
 
-    //    const formData = new FormData();
-    //    formData.append('img', files[0]);
-    //    console.log(formData);
+    // //    const formData = new FormData();
+    // //    formData.append('img', files[0]);
+    // //    console.log(formData);
 
+    // }
+
+    function handleUploadFile(e) {
+        
+        setImgFile({
+          preview: URL.createObjectURL(e.target.files[0]),
+          img: e.target.files[0]
+        });
     }
 
-    // const handleUploadFile = (e) => setCardFile(e.target.files[0]);
+
+
+    const addNewImg = async () => {
+        // setSaving(true)
+        const data = new FormData();
+        data.append('img', imgFile.img);
+
+        console.log(data);
+        console.log(data.get("img"));
+    
+        // ...
+        // Inserimos aqui nossa chamada POST/PUT
+        // para enviarmos nosso arquivo.
+    }
+
+
+    
+
 
     // const addNewCard = async () => {
     //     // setSaving(true)
@@ -249,7 +276,7 @@ const  FormPet = ({optionPage, dataUser }) => {
                         <div className="ajuste" >
                             <label htmlFor="fimg">Imagem:</label>
                               {/* <input type="file" accept="image/*"  id="fimg" name="img" readOnly={isReadOnly} onChange={updatePhoto} /> */}
-                            <input type="file" accept="image/*"  id="fimg" name="img" readOnly={isReadOnly} onChange={e => handleUploadFile(e.target.files)} />
+                            <input type="file" accept="image/*"  id="fimg" name="img" readOnly={isReadOnly} onChange={ handleUploadFile} />
                             {/* <input type="text" id="fimg" name="img" readOnly={isReadOnly} onChange={e => handleChange(e)} defaultValue={img}  />  */}
                             {/* {  ( ErrorMessage.img )  && <p className="error">{ErrorMessage.img.messager}</p> } */}
                         </div> 
@@ -262,7 +289,10 @@ const  FormPet = ({optionPage, dataUser }) => {
                     {/* <button type="submit">Concluir</button>  */}
 
 
-                   
+                    {
+                        imgFile.preview && 
+                        <div className="preview"   style={{backgroundImage: `url('${imgFile.preview}')`}} ></div>
+                    }
 
                 </form>
             </Form>   

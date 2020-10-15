@@ -58,6 +58,15 @@ export const Form = styled.div`
 
       }
 
+      .preview{
+          width: 100px;
+          height: 100px;
+          background-size: cover;
+          background-position: center center;
+
+      }
+
+
     }
 
 `;
